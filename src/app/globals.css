@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.14), transparent 30rem),
+    linear-gradient(135deg, #020617 0%, #0b1120 46%, #101827 100%);
+  color: #e5e7eb;
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+}
