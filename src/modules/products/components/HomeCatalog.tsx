@@ -9,6 +9,7 @@ import type { Product } from "@/modules/products/models/product.model";
 import { sortProductsByPrice, type PriceSortOption } from "@/shared/utils/sorting";
 
 const productsPerPage = 8;
+const catalogProductLimit = 24;
 
 export function HomeCatalog(): JSX.Element {
   const { products, isLoading, errorMessage } = useProducts();
@@ -16,20 +17,22 @@ export function HomeCatalog(): JSX.Element {
   const [selectedSort, setSelectedSort] = useState<PriceSortOption>("none");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  const catalogProducts = useMemo<Product[]>(() => products.slice(0, catalogProductLimit), [products]);
+
   const categoryOptions = useMemo<string[]>(() => {
-    return Array.from(new Set(products.map((product) => product.category))).sort((firstCategory, secondCategory) =>
+    return Array.from(new Set(catalogProducts.map((product) => product.category))).sort((firstCategory, secondCategory) =>
       firstCategory.localeCompare(secondCategory)
     );
-  }, [products]);
+  }, [catalogProducts]);
 
   const visibleProducts = useMemo<Product[]>(() => {
     const filteredProducts =
       selectedCategory === "All"
-        ? products
-        : products.filter((product) => product.category === selectedCategory);
+        ? catalogProducts
+        : catalogProducts.filter((product) => product.category === selectedCategory);
 
     return sortProductsByPrice(filteredProducts, selectedSort);
-  }, [products, selectedCategory, selectedSort]);
+  }, [catalogProducts, selectedCategory, selectedSort]);
 
   const totalPages = Math.max(1, Math.ceil(visibleProducts.length / productsPerPage));
   const normalizedCurrentPage = Math.min(currentPage, totalPages);

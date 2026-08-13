@@ -2,9 +2,8 @@ import type { ProductDTO, ProductsApiResponseDTO } from "@/modules/products/dtos
 import { ProductMapper } from "@/modules/products/mappers/product.mapper";
 import type { Product } from "@/modules/products/models/product.model";
 
-const PRODUCTS_API_BASE_URL = "https://dummyjson.com/products/category";
-const productCategories = ["laptops", "smartphones", "tablets", "mobile-accessories"] as const;
-const maximumCatalogSize = 24;
+const PRODUCTS_API_URL = "https://dummyjson.com/products?limit=0";
+const electronicCategories = new Set(["laptops", "smartphones", "tablets", "mobile-accessories"]);
 
 function isProductDTO(value: unknown): value is ProductDTO {
   if (!value || typeof value !== "object") {
@@ -34,14 +33,7 @@ function isProductsApiResponseDTO(value: unknown): value is ProductsApiResponseD
 }
 
 export async function getProducts(): Promise<Product[]> {
-  const categoryResponses = await Promise.all(productCategories.map(fetchProductsByCategory));
-  const rawProducts = categoryResponses.flatMap((response) => response.products);
-
-  return rawProducts.filter(isProductDTO).slice(0, maximumCatalogSize).map(ProductMapper.toDomain);
-}
-
-async function fetchProductsByCategory(category: (typeof productCategories)[number]): Promise<ProductsApiResponseDTO> {
-  const response = await fetch(`${PRODUCTS_API_BASE_URL}/${category}`);
+  const response = await fetch(PRODUCTS_API_URL);
 
   if (!response.ok) {
     throw new Error("Products API request failed.");
@@ -53,5 +45,8 @@ async function fetchProductsByCategory(category: (typeof productCategories)[numb
     throw new Error("Products API returned an invalid response.");
   }
 
-  return data;
+  return data.products
+    .filter(isProductDTO)
+    .filter((product) => electronicCategories.has(product.category.trim().toLowerCase()))
+    .map(ProductMapper.toDomain);
 }

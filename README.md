@@ -18,7 +18,9 @@ ByteMarket is a modern frontend storefront for computer hardware and components.
 
 ## Features
 
-- Dynamic product catalog loaded from DummyJSON
+- Dynamic product catalog loaded from the full DummyJSON products resource
+- Catalog view limited to the first 24 electronic products
+- API-backed electronic categories such as laptops, smartphones, tablets, and mobile accessories
 - Product cards rendered with `products.map(...)`
 - Product pagination with page count and visible product range
 - Dynamic category filters based on DummyJSON categories

@@ -32,7 +32,7 @@ DummyJSON is used as the public products API. The UI never reads the raw API res
 
 `models` define clean application entities. Product UI components consume the `Product` domain model, not the DTO.
 
-`services` act as the infrastructure layer. `product.service.ts` fetches data from `https://dummyjson.com/products`, validates the response shape, filters technology-related products, and maps raw data before returning it.
+`services` act as the infrastructure layer. `product.service.ts` fetches the complete product resource from `https://dummyjson.com/products?limit=0`, validates the response shape, filters electronic device categories, and maps raw data before returning it. The catalog view limits rendering to the first 24 electronic domain products.
 
 `hooks` isolate React state and loading behavior. `useProducts` owns product loading, loading state, and error state.
 
