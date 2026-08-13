@@ -28,7 +28,7 @@ DummyJSON is used as the public products API. The UI never reads the raw API res
 
 `dtos` define the raw DummyJSON data format. `ProductDTO` uses API property names such as `id`, `title`, `description`, `price`, `category`, `thumbnail`, and `stock`.
 
-`mappers` transform DTOs into domain models. `ProductMapper` trims strings, validates prices and stock, normalizes categories into the ByteMarket catalog taxonomy, and provides fallbacks for missing values.
+`mappers` transform DTOs into domain models. `ProductMapper` trims strings, validates prices and stock, formats the original API category for the UI, and provides fallbacks for missing values.
 
 `models` define clean application entities. Product UI components consume the `Product` domain model, not the DTO.
 

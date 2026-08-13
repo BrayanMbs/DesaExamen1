@@ -16,6 +16,12 @@ export function HomeCatalog(): JSX.Element {
   const [selectedSort, setSelectedSort] = useState<PriceSortOption>("none");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  const categoryOptions = useMemo<string[]>(() => {
+    return Array.from(new Set(products.map((product) => product.category))).sort((firstCategory, secondCategory) =>
+      firstCategory.localeCompare(secondCategory)
+    );
+  }, [products]);
+
   const visibleProducts = useMemo<Product[]>(() => {
     const filteredProducts =
       selectedCategory === "All"
@@ -54,6 +60,7 @@ export function HomeCatalog(): JSX.Element {
       </div>
 
       <ProductFilters
+        categories={categoryOptions}
         selectedCategory={selectedCategory}
         selectedSort={selectedSort}
         onCategoryChange={handleCategoryChange}

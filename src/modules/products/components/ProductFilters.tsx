@@ -1,20 +1,19 @@
 "use client";
 
-import type { ProductCategory } from "@/modules/products/models/product.model";
 import type { PriceSortOption } from "@/shared/utils/sorting";
 
-export type CategoryFilterOption = "All" | ProductCategory;
+export type CategoryFilterOption = "All" | string;
 
 interface ProductFiltersProps {
+  categories: string[];
   selectedCategory: CategoryFilterOption;
   selectedSort: PriceSortOption;
   onCategoryChange: (category: CategoryFilterOption) => void;
   onSortChange: (sortOption: PriceSortOption) => void;
 }
 
-const categoryOptions: CategoryFilterOption[] = ["All", "Components", "Peripherals", "Monitors"];
-
 export function ProductFilters({
+  categories,
   selectedCategory,
   selectedSort,
   onCategoryChange,
@@ -28,7 +27,7 @@ export function ProductFilters({
             Category
           </label>
           <div className="mt-2 flex flex-wrap gap-2">
-            {categoryOptions.map((category) => (
+            {["All", ...categories].map((category) => (
               <button
                 key={category}
                 className={`min-h-10 rounded-md px-4 text-sm font-semibold transition ${

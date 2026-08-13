@@ -21,7 +21,7 @@ ByteMarket is a modern frontend storefront for computer hardware and components.
 - Dynamic product catalog loaded from DummyJSON
 - Product cards rendered with `products.map(...)`
 - Product pagination with page count and visible product range
-- Category filters for All, Components, Peripherals, and Monitors
+- Dynamic category filters based on DummyJSON categories
 - Price sorting from low to high and high to low
 - Global shopping cart with React Context
 - Add-to-cart behavior without duplicate rows
