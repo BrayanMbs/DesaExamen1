@@ -14,11 +14,11 @@ ByteMarket is a modern frontend storefront for computer hardware and components.
 - Mapper Pattern
 - Domain Models
 - Service / Infrastructure Layer
-- Local Mock Database
+- DummyJSON public products API
 
 ## Features
 
-- Dynamic product catalog with 12 hardware products
+- Dynamic product catalog loaded from DummyJSON
 - Product cards rendered with `products.map(...)`
 - Category filters for All, Components, Peripherals, and Monitors
 - Price sorting from low to high and high to low
@@ -37,20 +37,20 @@ ByteMarket is a modern frontend storefront for computer hardware and components.
 The application follows this data flow:
 
 ```text
-Mock Database
-      ↓
+DummyJSON API
+      |
 Service / Infrastructure
-      ↓
+      |
 DTO
-      ↓
+      |
 Mapper
-      ↓
+      |
 Domain Model
-      ↓
+      |
 Hook
-      ↓
+      |
 React Component
-      ↓
+      |
 UI
 ```
 
@@ -58,9 +58,9 @@ Cart state follows this flow:
 
 ```text
 CartContext
-     ↓
+     |
 useCart
-     ↓
+     |
 ProductCard / Header / Cart Page
 ```
 
@@ -76,8 +76,6 @@ src/
 │   │   └── page.tsx
 │   ├── globals.css
 │   └── layout.tsx
-├── data/
-│   └── db.ts
 ├── modules/
 │   ├── cart/
 │   │   ├── components/
@@ -93,8 +91,6 @@ src/
 │       └── services/
 ├── shared/
 │   ├── components/
-│   ├── dtos/
-│   ├── services/
 │   └── utils/
 └── middleware.ts
 ```
@@ -122,4 +118,4 @@ npm run build
 
 ## Main Application Flow
 
-The user opens ByteMarket, products load through the service and mapper layers, the user filters by category, sorts by price, adds products to the cart, edits quantities, removes items, and sees the cart badge and total update instantly.
+The user opens ByteMarket, products load from DummyJSON through the service and mapper layers, the user filters by category, sorts by price, adds products to the cart, edits quantities, removes items, and sees the cart badge and total update instantly.

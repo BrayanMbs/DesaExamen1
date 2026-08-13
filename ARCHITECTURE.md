@@ -5,36 +5,34 @@ ByteMarket is organized as a layered frontend application using Next.js App Rout
 ## Data Flow
 
 ```text
-Mock Database
-      ↓
+DummyJSON API
+      |
 Service / Infrastructure
-      ↓
+      |
 DTO
-      ↓
+      |
 Mapper
-      ↓
+      |
 Domain Model
-      ↓
+      |
 Hook
-      ↓
+      |
 React Component
-      ↓
+      |
 UI
 ```
 
-The UI never reads the mock database directly. Product components receive clean domain models only.
+DummyJSON is used as the public products API. The UI never reads the raw API response directly. Product components receive clean domain models only.
 
 ## Layers
 
-`src/data/db.ts` stores local mock product data using the raw DTO shape. It represents the external data source for the application.
+`dtos` define the raw DummyJSON data format. `ProductDTO` uses API property names such as `id`, `title`, `description`, `price`, `category`, `thumbnail`, and `stock`.
 
-`dtos` define the raw data format. `ProductDTO` uses API-style property names such as `product_id`, `product_name`, and `product_price`.
-
-`mappers` transform DTOs into domain models. `ProductMapper` trims strings, validates prices and stock, normalizes categories, and provides fallbacks for missing values.
+`mappers` transform DTOs into domain models. `ProductMapper` trims strings, validates prices and stock, normalizes categories into the ByteMarket catalog taxonomy, and provides fallbacks for missing values.
 
 `models` define clean application entities. Product UI components consume the `Product` domain model, not the DTO.
 
-`services` act as the infrastructure layer. `product.service.ts` loads data from `db.ts`, simulates asynchronous behavior, and maps raw data before returning it.
+`services` act as the infrastructure layer. `product.service.ts` fetches data from `https://dummyjson.com/products`, validates the response shape, filters technology-related products, and maps raw data before returning it.
 
 `hooks` isolate React state and loading behavior. `useProducts` owns product loading, loading state, and error state.
 
@@ -44,9 +42,9 @@ The UI never reads the mock database directly. Product components receive clean 
 
 ```text
 CartContext
-     ↓
+     |
 useCart
-     ↓
+     |
 ProductCard / Header / Cart Page
 ```
 

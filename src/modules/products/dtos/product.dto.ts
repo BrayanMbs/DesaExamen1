@@ -1,11 +1,16 @@
-import type { RawCategoryDTO } from "@/shared/dtos/common.dto";
-
 export interface ProductDTO {
-  product_id: number;
-  product_name: string;
-  product_description: string;
-  product_price: number;
-  product_category: RawCategoryDTO;
-  product_image: string;
-  product_stock: number;
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  thumbnail: string;
+  stock: number;
+}
+
+export interface ProductsApiResponseDTO {
+  products: ProductDTO[];
+  total: number;
+  skip: number;
+  limit: number;
 }

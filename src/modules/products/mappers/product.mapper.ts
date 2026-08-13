@@ -4,7 +4,11 @@ import type { Product, ProductCategory } from "@/modules/products/models/product
 const categoryMap: Record<string, ProductCategory> = {
   components: "Components",
   peripherals: "Peripherals",
-  monitors: "Monitors"
+  monitors: "Monitors",
+  laptops: "Components",
+  smartphones: "Peripherals",
+  tablets: "Monitors",
+  "mobile-accessories": "Peripherals"
 };
 
 function normalizeText(value: string | undefined, fallback: string): string {
@@ -27,13 +31,13 @@ function normalizeCategory(value: string): ProductCategory {
 export const ProductMapper = {
   toDomain(dto: ProductDTO): Product {
     return {
-      id: dto.product_id,
-      name: normalizeText(dto.product_name, "Unnamed Product"),
-      description: normalizeText(dto.product_description, "No description available."),
-      price: normalizePrice(dto.product_price),
-      category: normalizeCategory(dto.product_category),
-      image: normalizeText(dto.product_image, "/placeholder-product.png"),
-      stock: normalizeStock(dto.product_stock)
+      id: dto.id,
+      name: normalizeText(dto.title, "Unnamed Product"),
+      description: normalizeText(dto.description, "No description available."),
+      price: normalizePrice(dto.price),
+      category: normalizeCategory(dto.category),
+      image: normalizeText(dto.thumbnail, "/placeholder-product.png"),
+      stock: normalizeStock(dto.stock)
     };
   }
 };
