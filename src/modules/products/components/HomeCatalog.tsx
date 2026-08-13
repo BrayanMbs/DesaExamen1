@@ -42,23 +42,15 @@ export function HomeCatalog(): JSX.Element {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8 grid gap-6 lg:grid-cols-[1fr_24rem] lg:items-end">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-normal text-cyan-300">Computer Hardware Store</p>
-          <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
-            ByteMarket
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
-            Build faster systems with curated graphics cards, processors, memory, storage, monitors, and gaming
-            peripherals.
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-cyan-400/20 bg-slate-900/80 p-5 shadow-glow">
-          <p className="text-sm font-semibold text-slate-300">Live catalog</p>
-          <p className="mt-2 text-3xl font-black text-cyan-200">{products.length}</p>
-          <p className="mt-1 text-sm text-slate-400">Products loaded through the service, mapper, and domain layers.</p>
-        </div>
+      <div className="mb-8">
+        <p className="text-sm font-bold uppercase tracking-normal text-cyan-300">Computer Hardware Store</p>
+        <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
+          ByteMarket
+        </h1>
+        <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+          Build faster systems with curated graphics cards, processors, memory, storage, monitors, and gaming
+          peripherals.
+        </p>
       </div>
 
       <ProductFilters
