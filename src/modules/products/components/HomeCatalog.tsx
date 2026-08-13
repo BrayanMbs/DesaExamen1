@@ -3,14 +3,18 @@
 import { useMemo, useState } from "react";
 import { ProductFilters, type CategoryFilterOption } from "@/modules/products/components/ProductFilters";
 import { ProductGrid } from "@/modules/products/components/ProductGrid";
+import { ProductPagination } from "@/modules/products/components/ProductPagination";
 import { useProducts } from "@/modules/products/hooks/useProducts";
 import type { Product } from "@/modules/products/models/product.model";
 import { sortProductsByPrice, type PriceSortOption } from "@/shared/utils/sorting";
+
+const productsPerPage = 8;
 
 export function HomeCatalog(): JSX.Element {
   const { products, isLoading, errorMessage } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilterOption>("All");
   const [selectedSort, setSelectedSort] = useState<PriceSortOption>("none");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const visibleProducts = useMemo<Product[]>(() => {
     const filteredProducts =
@@ -20,6 +24,21 @@ export function HomeCatalog(): JSX.Element {
 
     return sortProductsByPrice(filteredProducts, selectedSort);
   }, [products, selectedCategory, selectedSort]);
+
+  const totalPages = Math.max(1, Math.ceil(visibleProducts.length / productsPerPage));
+  const normalizedCurrentPage = Math.min(currentPage, totalPages);
+  const firstProductIndex = (normalizedCurrentPage - 1) * productsPerPage;
+  const paginatedProducts = visibleProducts.slice(firstProductIndex, firstProductIndex + productsPerPage);
+
+  function handleCategoryChange(category: CategoryFilterOption): void {
+    setSelectedCategory(category);
+    setCurrentPage(1);
+  }
+
+  function handleSortChange(sortOption: PriceSortOption): void {
+    setSelectedSort(sortOption);
+    setCurrentPage(1);
+  }
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -45,8 +64,8 @@ export function HomeCatalog(): JSX.Element {
       <ProductFilters
         selectedCategory={selectedCategory}
         selectedSort={selectedSort}
-        onCategoryChange={setSelectedCategory}
-        onSortChange={setSelectedSort}
+        onCategoryChange={handleCategoryChange}
+        onSortChange={handleSortChange}
       />
 
       {isLoading ? (
@@ -63,7 +82,18 @@ export function HomeCatalog(): JSX.Element {
         </div>
       ) : null}
 
-      {!isLoading && !errorMessage ? <ProductGrid products={visibleProducts} /> : null}
+      {!isLoading && !errorMessage ? (
+        <>
+          <ProductGrid products={paginatedProducts} />
+          <ProductPagination
+            currentPage={normalizedCurrentPage}
+            totalItems={visibleProducts.length}
+            totalPages={totalPages}
+            itemsPerPage={productsPerPage}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      ) : null}
     </section>
   );
 }
